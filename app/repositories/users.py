@@ -28,7 +28,9 @@ class UserRepository:
     def get_single_user(self,db:Session,email:str):
         return db.query(User).filter(User.email == email).first()
     
-    
+    def get_single_user_by_userid(self,db:Session,id:int):
+            return db.query(Profile).filter(Profile.user_id == id).first()
+        
     def get_all_user(self,db:Session):
         return db.query(User).options(joinedload(User.profile)).all()
         
