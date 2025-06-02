@@ -1,2 +1,2 @@
-# Python,Typescript
-## FastAPI,Next.js
+# Python, TypeScript
+## FastAPI, Next.js
