@@ -8,14 +8,14 @@ from schemas.profile import ProfileShow
 from repositories.users import UserRepository
 from core.security import verify_password,create_access_token,create_refresh_token,create_refresh_token,decode_refresh_token
 
-router = APIRouter()
+user_router = APIRouter()
 
 respo = UserRepository()
 
 UPLOAD_URL="public/users_images"
 
 # register user router
-@router.post('/register',response_model=UserShow)
+@user_router.post('/register',response_model=UserShow)
 def register(user:UserCreate,db:Session=Depends(get_db)):
     db_user = respo.get_single_user(db,user.email)
     if db_user:
@@ -23,7 +23,7 @@ def register(user:UserCreate,db:Session=Depends(get_db)):
     return respo.create(db,user)
 
 # login user router
-@router.post('/login',response_model=AccessToken)
+@user_router.post('/login',response_model=AccessToken)
 def login(user:UserLogin,db:Session=Depends(get_db)):
     user_db = respo.get_single_user(db,user.email)
     if not user_db or not verify_password(user.password,user_db.password):
@@ -37,7 +37,7 @@ def login(user:UserLogin,db:Session=Depends(get_db)):
     
     
 # refresh token router  
-@router.post("/refresh",response_model=AccessToken)
+@user_router.post("/refresh",response_model=AccessToken)
 def refresh(token_data:RefreshToken):
     try:
        payload = decode_refresh_token(token_data.refresh_token)
@@ -54,7 +54,7 @@ def refresh(token_data:RefreshToken):
         raise HTTPException(status_code=401,detail="Invalid refresh token")
     
 # update profile  router  
-@router.put("/update/profile/{user_id}",response_model=ProfileShow)
+@user_router.put("/update/profile/{user_id}",response_model=ProfileShow)
 def update_profile(user_id:int,bio:str=File(None),file:UploadFile=File(None),db:Session=Depends(get_db)):
     profile  = respo.get_single_user_by_userid(db,user_id)
     if not profile:
