@@ -13,3 +13,15 @@ class Profile(Base):
     user_id = Column(Integer,ForeignKey("users.id"))
     
     user = relationship("User",back_populates="profile")
+        # ADD these two relationships
+    send_messages = relationship(
+        "SingleMessages",
+        foreign_keys="SingleMessages.sender_id",
+        back_populates="sender"
+    )
+
+    reciver_messages = relationship(
+        "SingleMessages",
+        foreign_keys="SingleMessages.reciver_id",
+        back_populates="reciver"
+    )

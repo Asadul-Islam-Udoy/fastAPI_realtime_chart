@@ -4,7 +4,7 @@ from typing import Optional
 class UserCreate(BaseModel):
     username:str
     email:EmailStr
-    role:str
+    role:Optional[str] = "user"
     password:str
 
 class ProfileShowModel(BaseModel):
@@ -17,7 +17,7 @@ class UserShow(BaseModel):
     id:int
     username:str
     email:EmailStr
-    role:str
+    role:Optional[str] = "user"
     profile:Optional[ProfileShowModel]=None
    
     class Config:
