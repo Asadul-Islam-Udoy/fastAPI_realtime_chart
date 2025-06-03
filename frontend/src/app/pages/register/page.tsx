@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { API_URL } from "@/app/api/api_url/API_URL";
+
 interface RegisterProps {}
 
 const Register: FC<RegisterProps> = ({}) => {
@@ -29,7 +30,7 @@ const Register: FC<RegisterProps> = ({}) => {
     }
     const { confirmPassword, ...payload } = userCreateInfo;
     try {
-      const res = await fetch(`${API_URL}users/register`, {
+      const res = await fetch(`${API_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

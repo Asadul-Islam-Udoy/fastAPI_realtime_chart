@@ -32,6 +32,12 @@ class AccessToken(BaseModel):
     refresh_token:str
     token_type:str="bearer"
     
+class LoginResponse(BaseModel):
+    username: str
+    email: str
+    role: str
+    token: AccessToken
+   
 class RefreshToken(BaseModel):
     refresh_token:str
         

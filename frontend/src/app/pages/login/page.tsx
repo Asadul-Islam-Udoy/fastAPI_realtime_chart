@@ -1,10 +1,56 @@
-import type { FC } from "react";
+"use client";
+import { useState, type FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import KeyOffIcon from '@mui/icons-material/KeyOff';
-interface LoginProps {}
+import { API_URL } from "@/app/api/api_url/API_URL";
+import { useUser } from "@/app/context/UserContext";
+
+interface LoginProps {
+
+}
 
 const Login: FC<LoginProps> = ({}) => {
+    const router = useRouter();
+      const [lodding, setLodding] = useState<boolean>(false);
+      const {setUserInfo} = useUser()
+      const [userLoginInfo, setUserLoginInfo] = useState({
+        email: "",
+        password: "",
+      });
+    
+      const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLodding(true);
+        try {
+          const res = await fetch(`${API_URL}/users/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userLoginInfo),
+          });
+    
+          const data = await res.json();
+          if (!res.ok) {
+            setLodding(false);
+            return toast.error(data.detail || "Somthing is wrong!");
+          }
+          toast.success("Login successfully!");
+          setUserInfo(data)
+          setUserLoginInfo({
+            email: "",
+            password: "",
+          });
+          setLodding(false);
+          router.push("/");
+        } catch (error: any) {
+          setLodding(false);
+          toast.error(error.detail || "Login fails");
+        }
+      };
   return (
     <>
       <div className="grid  grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -17,16 +63,22 @@ const Login: FC<LoginProps> = ({}) => {
             height={38}
             priority
           />
-          <form>
+          <form onSubmit={submitHandler}>
             <div className="w-full max-w-sm min-w-[200px]">
               <div className="md:w-[500px] w-full ">
                 <input
                   type="text"
+                  required
+                  value={userLoginInfo.email}
+                  onChange={(e)=>setUserLoginInfo((pre)=>({...pre,email:e.target.value}))}
                   className="md:w-[500px]  w-full pl-3 pr-10 py-4 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                   placeholder="Type Email..."
                 />
                 <input
-                  type="text"
+                  value={userLoginInfo.password}
+                  onChange={(e)=>setUserLoginInfo((pre)=>({...pre,password:e.target.value}))}
+                  type="password"
+                  required
                   className="md:w-[500px] mt-1 w-full pl-3 pr-10 py-4 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                   placeholder="Type Password..."
                 />
@@ -48,7 +100,7 @@ const Login: FC<LoginProps> = ({}) => {
                 </div>
                 <div className="w-full mt-2 cursor-pointer bg-blue-400 flex justify-content-center align-items-center">
                   <button className="p-2 cursor-pointer text-[red] w-full">
-                    Login
+                    {lodding ? "Login..." : "Login"}
                   </button>
                 </div>
               </div>
