@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface LoginInfo {
+  id?:number;
   username?: string;
   email?: string;
   role?: string;
@@ -26,15 +27,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     if(storedUser){
         setUserInfo(JSON.parse(storedUser))
     }
-  });
+  },[]);
 
   useEffect(()=>{
     if(userInfo){
         localStorage.setItem("userInfo",JSON.stringify(userInfo))
     }
-    else{
-        localStorage.removeItem("userInfo")
-    }
+    // else{
+    //     localStorage.removeItem("userInfo")
+    // }
   },[userInfo]);
 
   return (

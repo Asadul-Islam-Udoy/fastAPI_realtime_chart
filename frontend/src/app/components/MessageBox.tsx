@@ -1,32 +1,47 @@
 import type { FC } from "react";
+interface Message {
+  sender_id: number;
+  reviver_id: number;
+  content: string;
+  timestamp: string;
+}
+interface MessageBoxProps {
+  messages: Message[];
+  currentUserId?: number;
+}
 
-interface MessageBoxProps {}
-
-const MessageBox: FC<MessageBoxProps> = ({}) => {
-  return (
-    <>
-      <div className="border pl-4 shadow h-[400px] md:w-[500px] w-full overflow-x-hidden">
-          <div className=" md:p-4 w-full">
-            <div className="flex m-2 gap-2">
-              <img className="w-[30px] h-[30px] rounded-full" src="" />
-              1
+const MessageBox: FC<MessageBoxProps> = ({ messages, currentUserId }) => {
+ return (
+    <div className="border shadow h-[400px] md:w-[500px] w-full overflow-y-auto p-4 space-y-4">
+      {messages?.map((msg, index) => {
+        const isSender = msg.sender_id === currentUserId;
+        return (
+          <div
+            key={index}
+            className={`flex flex-col ${
+              isSender ? "items-end" : "items-start"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <img
+                className="w-[30px] h-[30px] rounded-full"
+                src="/avatar.png"
+                alt="user"
+              />
+              <span className="text-sm font-semibold">
+                {isSender ? "You" : `User ${msg.sender_id}`}
+              </span>
             </div>
-            <p className="md:w-[200px]  w-[200px] break-all">
-              hi, Asadul islam, how are you?
+            <p className="bg-blue-100 text-black rounded px-3 py-2 max-w-[80%] break-words">
+              {msg.content}
             </p>
+            <span className="text-xs text-gray-500">
+              {new Date(msg.timestamp).toLocaleTimeString()}
+            </span>
           </div>
-          <div className="w-full break-all md:ml-[53%] ml-[30%] ">
-            <div className=" w-full md:ml-[35%] ml-[48%] flex m-2 gap-2">
-              <img className="w-[30px] h-[30px] rounded-full" src="" />
-              2
-            </div>
-            <p className="md:w-[200px] w-[150px] break-all">
-              hello, Emon, I am Fine, about you? 
-            </p>
-          </div>
-          
-      </div>
-    </>
+        );
+      })}
+    </div>
   );
 };
 export default MessageBox;

@@ -33,6 +33,7 @@ class AccessToken(BaseModel):
     token_type:str="bearer"
     
 class LoginResponse(BaseModel):
+    id:int
     username: str
     email: str
     role: str

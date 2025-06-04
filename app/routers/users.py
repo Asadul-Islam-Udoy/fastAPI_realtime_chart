@@ -31,6 +31,7 @@ def login(user:UserLogin,db:Session=Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid credentials")
     data = {"sub":user_db.email}
     result = LoginResponse(
+        id=user_db.id,
         username=user_db.username,      # Use keyword args, not dict syntax here
         email=user_db.email,            # Fixed typo from "emali" to "email"
         role=user_db.role,
