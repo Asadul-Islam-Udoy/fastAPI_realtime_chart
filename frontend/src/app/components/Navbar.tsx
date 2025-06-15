@@ -91,7 +91,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="md:hidden mt-2 space-y-2">
+        <div className="md:hidden mt-2 space-y-2" >
           <input
             type="text"
             placeholder="Search..."
@@ -99,19 +99,45 @@ export default function Navbar() {
           />
           <div className="flex justify-between items-center px-2">
             <div className="relative">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1.5 rounded-full">
+              <Bell className="w-11 h-7 text-gray-600" />
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded-full">
                 2
               </span>
             </div>
+            <div className="relative" ref={dropdownRef}>
             <Image
               width={38}
               height={38}
               src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
               alt="User"
-              className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
+              className="w-10 h-10 rounded-full border-2 border-blue-500 cursor-pointer object-cover"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             />
+
+            {/* Dropdown menu */}
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow z-50">
+                <a
+                  href="#profile"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                  Profile
+                </a>
+                <a
+                  href="#settings"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                  Settings
+                </a>
+                <a
+                  href="#logout"
+                  className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >
+                  Logout
+                </a>
+              </div>
+            )}
+          </div>
           </div>
         </div>
       )}

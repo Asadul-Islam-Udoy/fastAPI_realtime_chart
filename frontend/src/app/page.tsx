@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import MessageBox from "./components/MessageBoxUser";
 import { useUser } from "./context/UserContext";
 import { useCallback, useEffect, useState } from "react";
 import UseSingleChat from "./hook/useSingleChat";
@@ -44,7 +42,7 @@ export default function Home() {
         <Navbar />
         <DashboardLayoutBasic />
         <main className="flex-1 p-8 bg-gray-50 mt-14 min-h-screen">
-          <h1 className="text-3xl font-bold mb-4">Welcome, Jane!</h1>
+          <h1 className="text-3xl font-bold mb-4">Welcome!</h1>
           <p>This is your dashboard content.</p>
         </main>
       </div>

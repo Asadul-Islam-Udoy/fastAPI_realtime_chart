@@ -5,6 +5,7 @@ interface User {
   name: string;
   email: string;
   avatarUrl?: string;
+  active: boolean; // added active status
 }
 
 const DashboardLayoutBasic: React.FC = () => {
@@ -18,6 +19,7 @@ const DashboardLayoutBasic: React.FC = () => {
         name: "Jane Doe",
         email: "jane.doe@example.com",
         avatarUrl: "https://i.pravatar.cc/150?img=47",
+        active: true, // active user
       });
       setLoading(false);
     }, 2000);
@@ -38,16 +40,72 @@ const DashboardLayoutBasic: React.FC = () => {
       <div className="h-full flex flex-col overflow-y-auto">
         {/* User Info */}
 
-        <div className="flex cursor-pointer hover:bg-blue-50 items-center  border-gray-200">
-          <Link className="flex cursor-pointer hover:bg-blue-50 items-center space-x-4 p-3 border-b border-gray-200" href="/pages/messagebox/2">
+        <div className="flex cursor-pointer hover:bg-blue-50 items-center border-gray-200">
+          <Link
+            className="flex cursor-pointer hover:bg-blue-50 items-center space-x-4 p-3 border-b border-gray-200"
+            href={`/pages/messagebox/${2}`}
+          >
             {loading ? (
-              <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse" />
+              <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse relative" />
             ) : (
-              <img
-                src={user?.avatarUrl}
-                alt="User avatar"
-                className="w-14 h-14 rounded-full object-cover"
-              />
+              <div className="relative">
+                <img
+                  src={user?.avatarUrl}
+                  alt="User avatar"
+                  className="w-14 h-14 rounded-full object-cover"
+                />
+                {/* Active status dot */}
+                <span
+                  className={`
+                    absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white
+                    ${user?.active ? "bg-green-500" : "bg-gray-400"}
+                  `}
+                  title={user?.active ? "Active" : "Offline"}
+                />
+              </div>
+            )}
+            <div className="flex flex-col space-y-2">
+              {loading ? (
+                <>
+                  <div className="h-4 w-32 bg-gray-300 rounded animate-pulse" />
+                  <div className="h-3 w-40 bg-gray-200 rounded animate-pulse" />
+                </>
+              ) : (
+                <>
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    {user?.name}
+                  </h2>
+                  <p className="text-sm text-gray-500">{user?.email}</p>
+                </>
+              )}
+            </div>
+          </Link>
+        </div>
+        {/* User Info */}
+
+        <div className="flex cursor-pointer hover:bg-blue-50 items-center border-gray-200">
+          <Link
+            className="flex cursor-pointer hover:bg-blue-50 items-center space-x-4 p-3 border-b border-gray-200"
+            href={`/pages/messagebox/${3}`}
+          >
+            {loading ? (
+              <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse relative" />
+            ) : (
+              <div className="relative">
+                <img
+                  src={user?.avatarUrl}
+                  alt="User avatar"
+                  className="w-14 h-14 rounded-full object-cover"
+                />
+                {/* Active status dot */}
+                <span
+                  className={`
+                    absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white
+                    ${user?.active ? "bg-green-500" : "bg-gray-400"}
+                  `}
+                  title={user?.active ? "Active" : "Offline"}
+                />
+              </div>
             )}
             <div className="flex flex-col space-y-2">
               {loading ? (
